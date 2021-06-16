@@ -19,7 +19,7 @@ class UsersMiddleware {
             });
         }
     }
-    
+
     async validateSameEmailDoesntExist(
         req: express.Request,
         res: express.Response,
@@ -32,20 +32,20 @@ class UsersMiddleware {
             next();
         }
     }
-    
+
     async validateSameEmailBelongToSameUser(
         req: express.Request,
         res: express.Response,
         next: express.NextFunction
     ) {
         const user = await userService.getUserByEmail(req.body.email);
-        if (user && user.id === req.params.userId) {
+        if (user && user._id === req.params.userId) {
             next();
         } else {
             res.status(400).send({ error: `Invalid email` });
         }
     }
-    
+
     // used arrow function to bind `this` correctly
     validatePatchEmail = async (
         req: express.Request,
@@ -54,13 +54,13 @@ class UsersMiddleware {
     ) => {
         if (req.body.email) {
             log('Validating email', req.body.email);
-    
+
             this.validateSameEmailBelongToSameUser(req, res, next);
         } else {
             next();
         }
     };
-    
+
     async validateUserExists(
         req: express.Request,
         res: express.Response,

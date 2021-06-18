@@ -6,19 +6,21 @@ const log: debug.IDebugger = debug('app:users-middleware');
 
 class UsersMiddleware {
 
-    async validateRequiredUserBodyFields(
-        req: express.Request,
-        res: express.Response,
-        next: express.NextFunction
-    ) {
-        if (req.body && req.body.email && req.body.password) {
-            next();
-        } else {
-            res.status(400).send({
-                error: `Missing required fields email and password`,
-            });
-        }
-    }
+    // this implementation is not required since we use express validator in user routes.config
+    
+    // async validateRequiredUserBodyFields(
+    //     req: express.Request,
+    //     res: express.Response,
+    //     next: express.NextFunction
+    // ) {
+    //     if (req.body && req.body.email && req.body.password) {
+    //         next();
+    //     } else {
+    //         res.status(400).send({
+    //             error: `Missing required fields email and password`,
+    //         });
+    //     }
+    // }
 
     async validateSameEmailDoesntExist(
         req: express.Request,

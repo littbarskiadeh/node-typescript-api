@@ -14,7 +14,7 @@ class UsersDao {
     userSchema = new this.Schema({
         _id: String,
         email: String,
-        password: { type: String, select: false },
+        password: { type: String, select: false },// avoids mongoose from retrieving password field
         firstName: String,
         lastName: String,
         permissionFlags: Number,
@@ -39,6 +39,12 @@ class UsersDao {
 
     async getUserByEmail(email: string) {
         return this.User.findOne({ email: email }).exec();
+    }
+
+    async getUserByEmailWithPassword(email: string) {
+        return this.User.findOne({ email: email })
+            .select('_id email permissionFlags +password')
+            .exec();
     }
 
     async getUserById(userId: string) {
